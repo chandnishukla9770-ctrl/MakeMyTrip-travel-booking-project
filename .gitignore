@@ -1,0 +1,7 @@
+env/
+venv/
+__pycache__/
+*.pyc
+db.sqlite3
+MakeMyTrip-frontend/node_modules/
+MakeMyTrip-frontend/dist/
