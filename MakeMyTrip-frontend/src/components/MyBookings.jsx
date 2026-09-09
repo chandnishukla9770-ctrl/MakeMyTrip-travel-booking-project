@@ -6,7 +6,7 @@ function MyBookings() {
 
     useEffect(() => {
         axios
-            .get("/api/bookings/", {
+            .get("https://makemytrip-travel-booking-project-production.up.railway.app/api/bookings/", {
                 withCredentials: true,
                 headers: {
                     "X-CSRFToken": localStorage.getItem("csrfToken"),
