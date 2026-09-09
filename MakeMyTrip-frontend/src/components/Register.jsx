@@ -9,7 +9,7 @@ function Register() {
 
     const registerUser = () => {
         axios
-            .post("http://127.0.0.1:8000/api/accounts/register/", {
+            .post("https://makemytrip-travel-booking-project-production.up.railway.app/api/accounts/register/", {
                 username: username,
                 email: email,
                 password: password,
