@@ -162,8 +162,10 @@ CORS_ALLOWED_ORIGINS = [
     "https://make-my-trip-travel-booking-project-arje6t673-make-my-trip.vercel.app",
 ]
 
+
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "https://make-my-trip-travel-booking-project-arje6t673-make-my-trip.vercel.app",
+    "https://makemytrip-travel-booking-project-production.up.railway.app",
 ]
