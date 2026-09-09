@@ -28,7 +28,7 @@ function Booking() {
     const bookPackage = () => {
         axios
             .post(
-                "/api/bookings/",
+                "https://makemytrip-travel-booking-project-production.up.railway.app/api/bookings/",
                 {
                     travel_package: id,
                     customer_name: name,
