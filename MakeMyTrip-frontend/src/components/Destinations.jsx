@@ -7,8 +7,7 @@ function Destinations() {
     const [destinations, setDestinations] = useState([]);
 
     useEffect(() => {
-        axios
-            .get("/api/destinations/")
+        axios.get("https://makemytrip-travel-booking-project-production.up.railway.app/api/destinations/")
             .then((response) => setDestinations(response.data))
             .catch((error) => {
                 console.error("Error fetching destinations:", error);

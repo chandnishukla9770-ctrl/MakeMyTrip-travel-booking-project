@@ -5,8 +5,7 @@ function Hotels() {
   const [hotels, setHotels] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("/api/hotels/")
+    axios.get("https://makemytrip-travel-booking-project-production.up.railway.app/api/hotels/")
       .then((response) => {
         console.log(response.data);
         setHotels(response.data);

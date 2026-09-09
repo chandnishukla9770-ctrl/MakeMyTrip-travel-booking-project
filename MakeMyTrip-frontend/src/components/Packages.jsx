@@ -11,8 +11,7 @@ function Packages() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios
-            .get(id ? `/api/packages/?destination=${id}` : "/api/packages/")
+        axios.get("https://makemytrip-travel-booking-project-production.up.railway.app/api/packages/")
             .then((Response) => {
                 setPackages(Response.data);
             })

@@ -16,8 +16,7 @@ function Booking() {
 
     // Get selected package
     useEffect(() => {
-        axios
-            .get(`/api/packages/${id}/`)
+        axios.get("https://makemytrip-travel-booking-project-production.up.railway.app/api/packages/")
             .then((response) => {
                 setPackageData(response.data);
             })
