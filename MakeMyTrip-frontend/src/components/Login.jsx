@@ -9,7 +9,7 @@ function Login() {
 
     const loginUser = () => {
         axios
-            .post("/api/accounts/login/", {
+            .post("https://makemytrip-travel-booking-project-production.up.railway.app/api/accounts/login/", {
                 username: username,
                 password: password,
             }, {
