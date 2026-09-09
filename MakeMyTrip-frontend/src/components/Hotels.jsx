@@ -21,6 +21,13 @@ function Hotels() {
 
       {hotels.map((hotel) => (
         <div className="card" key={hotel.id}>
+          <img
+            src={hotel.image?.replace(
+              "/destinations/hotels/",
+              "/hotels/"
+            )}
+            alt={hotel.name}
+          />
           <h3>{hotel.name}</h3>
           <p>{hotel.description}</p>
           <p>Location: {hotel.location}</p>
