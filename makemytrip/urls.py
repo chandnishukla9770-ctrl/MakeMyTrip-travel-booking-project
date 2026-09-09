@@ -27,6 +27,11 @@ urlpatterns = [
 ]
 
 urlpatterns += static(
-    settings.MEDIA_URL,
-    document_root=settings.MEDIA_ROOT
+    '/destinations/',
+    document_root=settings.BASE_DIR / 'destinations'
+)
+
+urlpatterns += static(
+    '/hotels/',
+    document_root=settings.BASE_DIR / 'hotels'
 )
