@@ -1,0 +1,182 @@
+[
+  {
+    "model": "travel.destination",
+    "pk": 1,
+    "fields": {
+      "name": "Goa",
+      "description": "Beautiful beaches, nightlife and relaxing holidays.",
+      "image": "destinations/Goa.jpg"
+    }
+  },
+  {
+    "model": "travel.destination",
+    "pk": 2,
+    "fields": {
+      "name": "kasol",
+      "description": "Beautiful nature, greenery, mountains, snow and relaxing holidays.",
+      "image": "destinations/kasol.jpg"
+    }
+  },
+  {
+    "model": "travel.destination",
+    "pk": 3,
+    "fields": {
+      "name": "manali",
+      "description": "Manali is a high altitude Himalayan region in Himachal Pradesh.",
+      "image": "destinations/manali.jpg"
+    }
+  },
+  {
+    "model": "travel.destination",
+    "pk": 4,
+    "fields": {
+      "name": "Ooty",
+      "description": "Ooty is a beautiful town in tamilnadu where western ghats mountains expands its beauty.",
+      "image": "destinations/Ooty.webp"
+    }
+  },
+  {
+    "model": "travel.destination",
+    "pk": 5,
+    "fields": {
+      "name": "Munnar (Kerala)",
+      "description": "Munnar is a beautiful place in kerala, surrouded by rolling hills with tea plantations in western ghats mountain range.",
+      "image": "destinations/munnar.webp"
+    }
+  },
+  {
+    "model": "travel.hotel",
+    "pk": 1,
+    "fields": {
+      "destinations": 1,
+      "name": "Goa Beach Resort",
+      "description": "Beautiful resort near Goa beach",
+      "location": "North Goa",
+      "price_per_night": "3500.00",
+      "rating": "4.5",
+      "image": "hotels/goa_beach_resort.jpg",
+      "is_available": true
+    }
+  },
+  {
+    "model": "travel.hotel",
+    "pk": 2,
+    "fields": {
+      "destinations": 2,
+      "name": "Kasol valley resort",
+      "description": "Beautiful hotel, surrounded by mountains and nature.",
+      "location": "Kasol, himachal pradesh",
+      "price_per_night": "3000.00",
+      "rating": "4.4",
+      "image": "hotels/kasol_valley_resort.jpg",
+      "is_available": true
+    }
+  },
+  {
+    "model": "travel.hotel",
+    "pk": 3,
+    "fields": {
+      "destinations": 3,
+      "name": "Snow valley resort, manali",
+      "description": "Amazing moutain vistas, tranquil area by Hadimba temple, fun family activities offered.",
+      "location": "manali, himachal pradesh",
+      "price_per_night": "2385.00",
+      "rating": "4.1",
+      "image": "",
+      "is_available": true
+    }
+  },
+  {
+    "model": "travel.hotel",
+    "pk": 4,
+    "fields": {
+      "destinations": 4,
+      "name": "The Abode by brown tree resort",
+      "description": "Breathtaking hilltop views, homemade food on request, hospitable caretakers.",
+      "location": "Ooty, Tamilnadu",
+      "price_per_night": "3832.00",
+      "rating": "3.9",
+      "image": "",
+      "is_available": true
+    }
+  },
+  {
+    "model": "travel.hotel",
+    "pk": 5,
+    "fields": {
+      "destinations": 5,
+      "name": "Munnar tea hills resort",
+      "description": "surrounded by stunning landscapes, private trekking, and spacious duplex villas with views.",
+      "location": "Munnar, Kerala",
+      "price_per_night": "5200.00",
+      "rating": "4.9",
+      "image": "",
+      "is_available": true
+    }
+  },
+  {
+    "model": "travel.travelpackage",
+    "pk": 1,
+    "fields": {
+      "destination": 1,
+      "name": "Goa beach holiday",
+      "description": "Enjoy beautiful beaches, sightseeing and relaxing holidays in Goa.",
+      "duration": "4 days / 3 nights",
+      "price": "15000.00",
+      "image": "",
+      "is_available": true
+    }
+  },
+  {
+    "model": "travel.travelpackage",
+    "pk": 2,
+    "fields": {
+      "destination": 2,
+      "name": "Kasol mountain escape",
+      "description": "explore the  beautiful mountains, valleys and peaceful surroundings of kasol.",
+      "duration": "4 days / 3 nights",
+      "price": "12000.00",
+      "image": "",
+      "is_available": true
+    }
+  },
+  {
+    "model": "travel.travelpackage",
+    "pk": 3,
+    "fields": {
+      "destination": 3,
+      "name": "Snow valley resort, manali",
+      "description": "Amazing mountain vistas, tranquil area by Hadimba temple, fun family activities offered.",
+      "duration": "3 days / 2 nights",
+      "price": "7155.00",
+      "image": "",
+      "is_available": true
+    }
+  },
+  {
+    "model": "travel.travelpackage",
+    "pk": 4,
+    "fields": {
+      "destination": 4,
+      "name": "The Abode by brown tree resort",
+      "description": "Breathtaking hilltop views, homemade food on request hospital caretakers.",
+      "duration": "5 days / 4 nights",
+      "price": "19160.00",
+      "image": "",
+      "is_available": true
+    }
+  },
+  {
+    "model": "travel.travelpackage",
+    "pk": 5,
+    "fields": {
+      "destination": 5,
+      "name": "Munnar tea hills resort",
+      "description": "surrounded by stunning landscapes, private trekking, and spacious duplex villas and views.",
+      "duration": "4 days / 3 nights",
+      "price": "20800.00",
+      "image": "",
+      "is_available": true
+    }
+  }
+]
