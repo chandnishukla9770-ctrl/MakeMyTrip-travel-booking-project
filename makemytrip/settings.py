@@ -169,10 +169,6 @@ CORS_ALLOWED_ORIGINS = [
     "https://make-my-trip-travel-booking-project-8djhdcx4x-make-my-trip.vercel.app",
 ]
 
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"^https://[a-zA-Z0-9-]+\.vercel\.app$",
-]
-
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = "None"
 SESSION_COOKIE_HTTPONLY = True
