@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useState } from "react";
+import { api, getErrorMessage } from "../api";
 
 function Register() {
     const [username, setUsername] = useState("");
@@ -7,23 +7,21 @@ function Register() {
     const [password, setPassword] = useState("");
 
 
-    const registerUser = () => {
-        axios
-            .post("https://makemytrip-travel-booking-project-production.up.railway.app/api/accounts/register/", {
+    const registerUser = (event) => {
+        event.preventDefault();
+        api
+            .post("/api/accounts/register/", {
                 username: username,
                 email: email,
                 password: password,
-            },
-                {
-                    withCredentials: true,
-                })
+            })
             .then(() => {
                 alert("Registration successful!");
             })
             .catch((error) => {
                 console.log("REGISTER ERROR:", error);
                 console.log("RESPONSE:", error.response?.data);
-                alert(JSON.stringify(error.response?.data));
+                alert(getErrorMessage(error, "Registration failed."));
             });
     };
 
@@ -31,22 +29,24 @@ function Register() {
         <div>
             <h2>Register</h2>
 
-            <input
-                type="text"
-                placeholder="Username"
-                onChange={(e) => setUsername(e.target.value)} />
+            <form onSubmit={registerUser}>
+                <input
+                    type="text"
+                    placeholder="Username"
+                    onChange={(e) => setUsername(e.target.value)} />
 
-            <input
-                type="email"
-                placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)} />
+                <input
+                    type="email"
+                    placeholder="Email"
+                    onChange={(e) => setEmail(e.target.value)} />
 
-            <input
-                type="password"
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)} />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)} />
 
-            <button onClick={registerUser}>Register</button>
+                <button type="submit">Register</button>
+            </form>
         </div>
     );
 }

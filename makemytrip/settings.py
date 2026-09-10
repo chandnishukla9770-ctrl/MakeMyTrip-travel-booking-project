@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,13 +21,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-vf$#p!n8+#0x$8d6_544^38)*ynk%en80xn-0=jlnbl5=61tc9'
+SECRET_KEY = os.getenv(
+    "DJANGO_SECRET_KEY",
+    'django-insecure-vf$#p!n8+#0x$8d6_544^38)*ynk%en80xn-0=jlnbl5=61tc9'
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DJANGO_DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = [
     "makemytrip-travel-booking-project-production.up.railway.app",
+    ".railway.app",
     "localhost",
     "127.0.0.1",
 ]
@@ -164,6 +169,10 @@ CORS_ALLOWED_ORIGINS = [
     "https://make-my-trip-travel-booking-project-8djhdcx4x-make-my-trip.vercel.app",
 ]
 
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://[a-zA-Z0-9-]+\.vercel\.app$",
+]
+
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = "None"
 SESSION_COOKIE_HTTPONLY = True
@@ -180,4 +189,5 @@ CSRF_TRUSTED_ORIGINS = [
     "https://makemytrip-travel-booking-project-production.up.railway.app",
     "https://make-my-trip-travel-booking-project.vercel.app",
     "https://make-my-trip-travel-booking-project-8djhdcx4x-make-my-trip.vercel.app",
+    "https://*.vercel.app",
 ]

@@ -21,7 +21,7 @@ class LoginView(APIView):
     authentication_classes = []
 
     def post(self, request):
-        username = request.data.get("username")
+        username = (request.data.get("username") or "").strip()
         password = request.data.get("password")
 
         user = authenticate(

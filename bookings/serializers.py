@@ -30,4 +30,19 @@ class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = '__all__'
-        read_only_fields = ['user']
+        read_only_fields = ['user', 'total_price', 'status']
+
+    def validate_number_of_people(self, value):
+        if value < 1:
+            raise serializers.ValidationError(
+                'Number of people must be at least 1.'
+            )
+        return value
+
+    def create(self, validated_data):
+        travel_package = validated_data['travel_package']
+        number_of_people = validated_data['number_of_people']
+        validated_data['total_price'] = (
+            travel_package.price * number_of_people
+        )
+        return super().create(validated_data)

@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { api, getErrorMessage } from "../api";
 
 function Booking() {
     const { id } = useParams();
@@ -15,10 +15,8 @@ function Booking() {
 
     // Get selected package
     useEffect(() => {
-        axios
-            .get(
-                "https://makemytrip-travel-booking-project-production.up.railway.app/api/packages/"
-            )
+        api
+            .get("/api/packages/")
             .then((response) => {
                 const selectedPackage = response.data.find(
                     (item) => item.id === Number(id)
@@ -34,9 +32,14 @@ function Booking() {
     }, [id]);
 
     const bookPackage = () => {
-        axios
+        if (!packageData || people < 1 || !date || !name || !email || !phone) {
+            alert("Please fill all booking details.");
+            return;
+        }
+
+        api
             .post(
-                "https://makemytrip-travel-booking-project-production.up.railway.app/api/bookings/",
+                "/api/bookings/",
                 {
                     travel_package: id,
                     customer_name: name,
@@ -46,19 +49,13 @@ function Booking() {
                     travel_date: date,
                     total_price: Number(packageData.price) * Number(people),
                 },
-                {
-                    withCredentials: true,
-                    headers: {
-                        "X-CSRFToken": localStorage.getItem("csrfToken"),
-                    },
-                }
             )
             .then(() => {
                 alert("Booking successful!");
             })
             .catch((error) => {
                 console.log("BOOKING ERROR:", error.response?.data);
-                alert(JSON.stringify(error.response?.data));
+                alert(getErrorMessage(error, "Booking failed. Please login again and try."));
             });
     };
 

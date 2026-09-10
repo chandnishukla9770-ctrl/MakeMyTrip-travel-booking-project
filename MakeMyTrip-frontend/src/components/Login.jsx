@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { api, getErrorMessage } from "../api";
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -9,21 +9,22 @@ function Login() {
 
     const loginUser = (event) => {
         event.preventDefault();
-        axios
-            .post("https://makemytrip-travel-booking-project-production.up.railway.app/api/accounts/login/", {
+        api
+            .post("/api/accounts/login/", {
                 username: username,
                 password: password,
-            }, {
-                withCredentials: true,
-            }
-            )
+            })
             .then((response) => {
-                localStorage.setItem("csrfToken", response.data.csrfToken);
+                const csrfToken = response.data.csrfToken || response.data.csrf_token;
+                if (csrfToken) {
+                    localStorage.setItem("csrfToken", csrfToken);
+                }
                 navigate("/my-bookings");
             })
             .catch((error) => {
                 console.log(error.response?.status);
                 console.log(error.response?.data);
+                alert(getErrorMessage(error, "Login failed. Please check your credentials."));
             });
     };
 

@@ -1,17 +1,12 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { api, getErrorMessage } from "../api";
 
 function MyBookings() {
     const [bookings, setBookings] = useState([]);
 
     useEffect(() => {
-        axios
-            .get("https://makemytrip-travel-booking-project-production.up.railway.app/api/bookings/", {
-                withCredentials: true,
-                headers: {
-                    "X-CSRFToken": localStorage.getItem("csrfToken"),
-                },
-            })
+        api
+            .get("/api/bookings/")
             .then((response) => {
                 console.log("MY BOOKINGS:", response.data);
                 setBookings(response.data);
@@ -22,14 +17,9 @@ function MyBookings() {
     }, []);
 
     const cancelBooking = (id) => {
-        axios
-            .post(`/api/bookings/${id}/cancel/`, {}, {
-                withCredentials: true,
-                headers: {
-                    "X-CSRFToken": localStorage.getItem("csrfToken"),
-                },
-            })
-            .then((response) => {
+        api
+            .post(`/api/bookings/${id}/cancel/`)
+            .then(() => {
                 alert("Booking cancelled successfully");
 
                 setBookings(
@@ -42,9 +32,7 @@ function MyBookings() {
             })
             .catch((error) => {
                 console.log("CANCEL ERROR:", error);
-                alert(
-                    error.response?.data?.message ||
-                    "Booking could not be cancelled");
+                alert(getErrorMessage(error, "Booking could not be cancelled."));
             });
     };
 
