@@ -7,7 +7,8 @@ function Login() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const loginUser = () => {
+    const loginUser = (event) => {
+        event.preventDefault();
         axios
             .post("https://makemytrip-travel-booking-project-production.up.railway.app/api/accounts/login/", {
                 username: username,
@@ -31,21 +32,27 @@ function Login() {
         <div>
             <h2>Login</h2>
 
-            <input
-                type="text"
-                name="username"
-                id="username"
-                placeholder="Username"
-                onChange={(e) => setUsername(e.target.value)} />
+            <form onSubmit={loginUser}>
+                <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    autoComplete="username"
+                    placeholder="Username"
+                    required
+                    onChange={(e) => setUsername(e.target.value)} />
 
-            <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)} />
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    autoComplete="current-password"
+                    placeholder="Password"
+                    required
+                    onChange={(e) => setPassword(e.target.value)} />
 
-            <button onClick={loginUser}>Login</button>
+                <button type="submit">Login</button>
+            </form>
 
 
         </div>
