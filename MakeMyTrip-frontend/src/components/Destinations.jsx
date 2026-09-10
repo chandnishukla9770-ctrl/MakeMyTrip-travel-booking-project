@@ -3,6 +3,13 @@ import axios from "axios";
 import "../App.css";
 import { Link } from "react-router-dom";
 
+function getImageUrl(image) {
+    if (!image) return "";
+
+    return image
+        .replace("http://", "https://");
+}
+
 function Destinations() {
     const [destinations, setDestinations] = useState([]);
 
@@ -24,10 +31,7 @@ function Destinations() {
                     <div className="destination-card" key={destination.id}>
 
                         <img
-                            src={destination.image?.replace(
-                                "/destinations/destinations/",
-                                "/destinations/"
-                            )}
+                            src={getImageUrl(destination.image)}
                             alt={destination.name}
                         />
 

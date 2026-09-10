@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+function getImageUrl(image) {
+  if (!image) return "";
+
+  return image
+    .replace("http://", "https://");
+}
+
 function Hotels() {
   const [hotels, setHotels] = useState([]);
 
@@ -22,10 +29,7 @@ function Hotels() {
       {hotels.map((hotel) => (
         <div className="card" key={hotel.id}>
           <img
-            src={hotel.image?.replace(
-              "/destinations/hotels/",
-              "/hotels/"
-            )}
+            src={getImageUrl(hotel.image)}
             alt={hotel.name}
           />
           <h3>{hotel.name}</h3>

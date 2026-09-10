@@ -155,8 +155,8 @@ REST_FRAMEWORK = {
 }
 
 
-MEDIA_URL = '/destinations/'
-MEDIA_ROOT = BASE_DIR / 'destinations'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR
 
 
 CORS_ALLOW_CREDENTIALS = True
