@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 function Booking() {
@@ -11,17 +11,25 @@ function Booking() {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [people, setPeople] = useState(1);
-    const [totalPrice, setTotalPrice] = useState(0);
     const [date, setDate] = useState("");
 
     // Get selected package
     useEffect(() => {
-        axios.get("https://makemytrip-travel-booking-project-production.up.railway.app/api/packages/")
+        axios
+            .get(
+                "https://makemytrip-travel-booking-project-production.up.railway.app/api/packages/"
+            )
             .then((response) => {
-                setPackageData(response.data);
+                const selectedPackage = response.data.find(
+                    (item) => item.id === Number(id)
+                );
+
+                console.log("SELECTED PACKAGE:", selectedPackage);
+
+                setPackageData(selectedPackage);
             })
             .catch((error) => {
-                console.log(error);
+                console.log("PACKAGE ERROR:", error);
             });
     }, [id]);
 
@@ -36,7 +44,7 @@ function Booking() {
                     customer_phone: phone,
                     number_of_people: people,
                     travel_date: date,
-                    total_price: packageData.price * people,
+                    total_price: Number(packageData.price) * Number(people),
                 },
                 {
                     withCredentials: true,
@@ -88,7 +96,8 @@ function Booking() {
                 type="number"
                 placeholder="Number of People"
                 value={people}
-                onChange={(e) => setPeople(e.target.value)}
+                min="1"
+                onChange={(e) => setPeople(Number(e.target.value))}
             />
 
             <input
