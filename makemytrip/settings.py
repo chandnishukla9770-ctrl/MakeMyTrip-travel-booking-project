@@ -205,4 +205,5 @@ CSRF_TRUSTED_ORIGINS = [
     "https://make-my-trip-travel-booking-project.vercel.app",
     "https://make-my-trip-travel-booking-project-8djhdcx4x-make-my-trip.vercel.app",
     "https://*.vercel.app",
+    "https://make-my-trip-travel-booking-project-q7eqsscos-make-my-trip.vercel.app",
 ]
