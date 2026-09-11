@@ -173,6 +173,7 @@ MEDIA_ROOT = BASE_DIR
 
 
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
@@ -181,6 +182,11 @@ CORS_ALLOWED_ORIGINS = [
     "https://make-my-trip-travel-booking-project.vercel.app",
     "https://make-my-trip-travel-booking-project-8djhdcx4x-make-my-trip.vercel.app",
     "https://make-my-trip-travel-booking-project-q7eqsscos-make-my-trip.vercel.app",
+
+]
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://make-my-trip-travel-booking-project-[a-z0-9-]+-make-my-trip\.vercel\.app$",
 ]
 
 SECURE_COOKIES = os.getenv("DJANGO_SECURE_COOKIES",
