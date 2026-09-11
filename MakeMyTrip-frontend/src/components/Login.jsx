@@ -1,17 +1,23 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api, getErrorMessage } from "../api";
+import { FiArrowRight, FiMail, FiShield } from "react-icons/fi";
 
 function Login() {
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
     const loginUser = (event) => {
         event.preventDefault();
+        setIsSubmitting(true);
+        setErrorMessage("");
         api
             .post("/api/accounts/login/", {
-                username: username,
+                email: email,
+                username: email,
                 password: password,
             })
             .then((response) => {
@@ -22,41 +28,65 @@ function Login() {
                 navigate("/my-bookings");
             })
             .catch((error) => {
-                console.log(error.response?.status);
-                console.log(error.response?.data);
-                alert(getErrorMessage(error, "Login failed. Please check your credentials."));
-            });
+                setErrorMessage(getErrorMessage(error, "Login failed. Please check your credentials."));
+            })
+            .finally(() => setIsSubmitting(false));
     };
 
+    const continueWithEmail = () => {
+        setErrorMessage("");
+        document.getElementById("login-identifier")?.focus();
+    };
 
     return (
-        <div>
-            <h2>Login</h2>
+        <section className="auth-layout">
+            <div className="auth-intro">
+                <span className="auth-badge"><FiShield /> Secure travel account</span>
+                <p className="auth-kicker">WELCOME BACK</p>
+                <h1>Your next journey starts here.</h1>
+                <p>Sign in to manage bookings, save favourite stays and pick up where you left off.</p>
+            </div>
+            <div className="auth-card">
+                <p className="auth-kicker">ACCOUNT ACCESS</p>
+                <h2>Login</h2>
+                <p className="auth-muted">Use your MakeMyTrip account to continue.</p>
 
-            <form onSubmit={loginUser}>
-                <input
-                    type="text"
-                    name="username"
-                    id="username"
-                    autoComplete="username"
-                    placeholder="Username"
-                    required
-                    onChange={(e) => setUsername(e.target.value)} />
+                <button type="button" className="portal-button" onClick={continueWithEmail}>
+                    <FiMail /> Continue with email
+                </button>
+                <div className="auth-divider"><span>use account credentials</span></div>
 
-                <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    autoComplete="current-password"
-                    placeholder="Password"
-                    required
-                    onChange={(e) => setPassword(e.target.value)} />
+                <form onSubmit={loginUser}>
+                    <label htmlFor="login-identifier">Username or registered email</label>
+                    <input
+                        type="text"
+                        name="email"
+                        id="login-identifier"
+                        autoComplete="username"
+                        placeholder="Enter username or email"
+                        required
+                        onChange={(e) => setEmail(e.target.value)} />
 
-                <button type="submit">Login</button>
-            </form>
+                    <label htmlFor="password">Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        autoComplete="current-password"
+                        placeholder="Enter your password"
+                        required
+                        onChange={(e) => setPassword(e.target.value)} />
 
+                    <button type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? "Signing in..." : "Login"} <FiArrowRight />
+                    </button>
+                </form>
 
-        </div>
+                {errorMessage && <p className="auth-error" role="alert">{errorMessage}</p>}
+                <p className="auth-switch">New here? <Link to="/register">Create an account</Link></p>
+                <p className="auth-note"><FiMail /> We never share your email with third parties.</p>
+            </div>
+        </section>
     );
 }
 

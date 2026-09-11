@@ -1,14 +1,20 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { api, getErrorMessage } from "../api";
+import { FiArrowRight, FiMail, FiShield } from "react-icons/fi";
 
 function Register() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
 
     const registerUser = (event) => {
         event.preventDefault();
+        setIsSubmitting(true);
+        setErrorMessage("");
         api
             .post("/api/accounts/register/", {
                 username: username,
@@ -16,38 +22,64 @@ function Register() {
                 password: password,
             })
             .then(() => {
-                alert("Registration successful!");
+                window.location.assign("/login");
             })
             .catch((error) => {
-                console.log("REGISTER ERROR:", error);
-                console.log("RESPONSE:", error.response?.data);
-                alert(getErrorMessage(error, "Registration failed."));
-            });
+                setErrorMessage(getErrorMessage(error, "Registration failed."));
+            })
+            .finally(() => setIsSubmitting(false));
+    };
+
+    const continueWithEmail = () => {
+        setErrorMessage("");
+        document.getElementById("register-email")?.focus();
     };
 
     return (
-        <div>
-            <h2>Register</h2>
+        <section className="auth-layout">
+            <div className="auth-intro">
+                <span className="auth-badge"><FiShield /> Secure travel account</span>
+                <p className="auth-kicker">PLAN MORE. WORRY LESS.</p>
+                <h1>Make room for more adventures.</h1>
+                <p>Create one account for every destination, hotel and package you book with us.</p>
+            </div>
+            <div className="auth-card">
+                <p className="auth-kicker">JOIN MAKEMYTRIP</p>
+                <h2>Register</h2>
+                <p className="auth-muted">Create your account in less than a minute.</p>
 
-            <form onSubmit={registerUser}>
-                <input
-                    type="text"
-                    placeholder="Username"
-                    onChange={(e) => setUsername(e.target.value)} />
+                <button type="button" className="portal-button" onClick={continueWithEmail}>
+                    <FiMail /> Sign up with email
+                </button>
+                <div className="auth-divider"><span>or use email</span></div>
 
-                <input
-                    type="email"
-                    placeholder="Email"
-                    onChange={(e) => setEmail(e.target.value)} />
+                <form onSubmit={registerUser}>
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        onChange={(e) => setUsername(e.target.value)} />
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    onChange={(e) => setPassword(e.target.value)} />
+                    <input
+                        type="email"
+                        id="register-email"
+                        placeholder="Email"
+                        onChange={(e) => setEmail(e.target.value)} />
 
-                <button type="submit">Register</button>
-            </form>
-        </div>
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        onChange={(e) => setPassword(e.target.value)} />
+
+                    <button type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? "Creating account..." : "Create account"} <FiArrowRight />
+                    </button>
+                </form>
+
+                {errorMessage && <p className="auth-error" role="alert">{errorMessage}</p>}
+                <p className="auth-switch">Already have an account? <Link to="/login">Login</Link></p>
+                <p className="auth-note"><FiMail /> Your email is only used for account updates.</p>
+            </div>
+        </section>
     );
 }
 

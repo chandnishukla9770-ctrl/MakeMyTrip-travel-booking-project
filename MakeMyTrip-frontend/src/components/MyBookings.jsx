@@ -3,13 +3,15 @@ import { api, getErrorMessage } from "../api";
 
 function MyBookings() {
     const [bookings, setBookings] = useState([]);
+    const [cancellingId, setCancellingId] = useState(null);
+    const isCancelled = (booking) => booking.status?.toLowerCase() === "cancelled";
 
     useEffect(() => {
         api
             .get("/api/bookings/")
             .then((response) => {
                 console.log("MY BOOKINGS:", response.data);
-                setBookings(response.data);
+                setBookings(response.data.filter((booking) => !isCancelled(booking)));
             })
             .catch((error) => {
                 console.log("BOOKINGS ERROR:", error);
@@ -17,22 +19,23 @@ function MyBookings() {
     }, []);
 
     const cancelBooking = (id) => {
+        setCancellingId(id);
+
         api
-            .post(`/api/bookings/${id}/cancel/`)
+            .post(`/api/bookings/${id}/cancel/`, {})
             .then(() => {
                 alert("Booking cancelled successfully");
 
                 setBookings(
-                    bookings.map((booking) =>
-                        booking.id === id
-                            ? { ...booking, status: "Cancelled" }
-                            : booking
-                    )
+                    (currentBookings) => currentBookings.filter((booking) => booking.id !== id)
                 );
             })
             .catch((error) => {
                 console.log("CANCEL ERROR:", error);
                 alert(getErrorMessage(error, "Booking could not be cancelled."));
+            })
+            .finally(() => {
+                setCancellingId(null);
             });
     };
 
@@ -86,8 +89,9 @@ function MyBookings() {
                         {booking.status !== "Cancelled" && (
                             <button
                                 onClick={() => cancelBooking(booking.id)}
+                                disabled={cancellingId === booking.id}
                             >
-                                Cancel Booking
+                                {cancellingId === booking.id ? "Cancelling..." : "Cancel Booking"}
                             </button>
                         )}
 

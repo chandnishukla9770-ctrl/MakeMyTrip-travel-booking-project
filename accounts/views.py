@@ -1,4 +1,5 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.middleware.csrf import get_token
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -21,8 +22,14 @@ class LoginView(APIView):
     authentication_classes = []
 
     def post(self, request):
-        username = (request.data.get("username") or "").strip()
+        identifier = (request.data.get("email")
+                      or request.data.get("username") or "").strip()
         password = request.data.get("password")
+        username = identifier
+
+        if "@" in identifier:
+            user = User.objects.filter(email__iexact=identifier).first()
+            username = user.username if user else identifier
 
         user = authenticate(
             username=username,
@@ -38,6 +45,14 @@ class LoginView(APIView):
             })
 
         return Response(
-            {"message": "Invalid username or password"},
+            {"message": "Invalid email or password"},
             status=400
         )
+
+
+class LogoutView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        logout(request)
+        return Response({"message": "Logout successful"})

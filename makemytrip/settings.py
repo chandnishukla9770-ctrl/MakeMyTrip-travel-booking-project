@@ -10,8 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,6 +32,10 @@ SECRET_KEY = os.getenv(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG", "False").lower() == "true"
+
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID", "")
+RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET", "")
+RAZORPAY_TEST_MODE = True
 
 ALLOWED_HOSTS = [
     "makemytrip-travel-booking-project-production.up.railway.app",
@@ -87,16 +95,21 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'makemytrip.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
+configured_database_path = Path(os.getenv('DATABASE_PATH', ''))
+database_path = (
+    configured_database_path
+    if configured_database_path.parent.exists()
+    else BASE_DIR / 'db.sqlite3'
+)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': database_path,
     }
 }
 
@@ -169,18 +182,23 @@ CORS_ALLOWED_ORIGINS = [
     "https://make-my-trip-travel-booking-project-8djhdcx4x-make-my-trip.vercel.app",
 ]
 
-SESSION_COOKIE_SECURE = True
-SESSION_COOKIE_SAMESITE = "None"
+SECURE_COOKIES = os.getenv("DJANGO_SECURE_COOKIES",
+                           str(not DEBUG)).lower() == "true"
+
+SESSION_COOKIE_SECURE = SECURE_COOKIES
+SESSION_COOKIE_SAMESITE = "None" if SECURE_COOKIES else "Lax"
 SESSION_COOKIE_HTTPONLY = True
 
 
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = "None"
+CSRF_COOKIE_SECURE = SECURE_COOKIES
+CSRF_COOKIE_SAMESITE = "None" if SECURE_COOKIES else "Lax"
 
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
     "https://make-my-trip-travel-booking-project-arje6t673-make-my-trip.vercel.app",
     "https://makemytrip-travel-booking-project-production.up.railway.app",
     "https://make-my-trip-travel-booking-project.vercel.app",
