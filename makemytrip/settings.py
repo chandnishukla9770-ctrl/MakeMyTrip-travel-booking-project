@@ -180,6 +180,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://make-my-trip-travel-booking-project-arje6t673-make-my-trip.vercel.app",
     "https://make-my-trip-travel-booking-project.vercel.app",
     "https://make-my-trip-travel-booking-project-8djhdcx4x-make-my-trip.vercel.app",
+    "https://make-my-trip-travel-booking-project-q7eqsscos-make-my-trip.vercel.app",
 ]
 
 SECURE_COOKIES = os.getenv("DJANGO_SECURE_COOKIES",
