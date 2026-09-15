@@ -9,7 +9,13 @@ import { demoDestinations, withDemoRecords } from "../catalogData";
 function getImageUrl(image) {
     if (!image) return "";
 
-    return image;
+    if (image.startsWith("http")) {
+        return image;
+    }
+
+    const backendUrl = API_BASE_URL || "http://127.0.0.1:8000";
+
+    return `${backendUrl}${image}`;
 }
 
 function Destinations() {
