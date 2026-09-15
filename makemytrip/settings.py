@@ -15,8 +15,9 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(BASE_DIR / ".env", override=True)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -109,7 +110,7 @@ database_path = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': database_path,
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -168,9 +169,8 @@ REST_FRAMEWORK = {
 }
 
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR
-
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True

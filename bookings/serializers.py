@@ -8,20 +8,24 @@ class BookingSerializer(serializers.ModelSerializer):
         source='travel_package.name',
         read_only=True
     )
+
     travel_package_description = serializers.CharField(
         source='travel_package.description',
         read_only=True
     )
+
     travel_package_duration = serializers.CharField(
         source='travel_package.duration',
         read_only=True
     )
+
     travel_package_price = serializers.DecimalField(
         source='travel_package.price',
         max_digits=10,
         decimal_places=2,
         read_only=True
     )
+
     destination_name = serializers.CharField(
         source='travel_package.destination.name',
         read_only=True
@@ -30,7 +34,11 @@ class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = '__all__'
-        read_only_fields = ['user', 'total_price', 'status']
+        read_only_fields = [
+            'user',
+            'total_price',
+            'status',
+        ]
 
     def validate_number_of_people(self, value):
         if value < 1:
@@ -42,7 +50,14 @@ class BookingSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         travel_package = validated_data['travel_package']
         number_of_people = validated_data['number_of_people']
+
+        if travel_package.price is None or travel_package.price <= 0:
+            raise serializers.ValidationError({
+                'travel_package': 'This travel package has an invalid price.'
+            })
+
         validated_data['total_price'] = (
             travel_package.price * number_of_people
         )
+
         return super().create(validated_data)

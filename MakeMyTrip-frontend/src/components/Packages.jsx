@@ -38,7 +38,20 @@ function Packages() {
             {isLoading ? <div className="catalog-empty">Loading packages...</div> : error ? <div className="catalog-empty catalog-error">{error}</div> : packages.length === 0 ? <div className="catalog-empty">No packages available for this destination yet.</div> : <div className="catalog-grid package-grid">
                 {packages.map((item) => (
                     <article className="travel-card package-card" key={item.id}>
-                        <div className="package-number">TRIP PACKAGE</div><h3>{item.name}</h3><p className="card-description">{item.description}</p>
+                        {item.image && (
+                            <img
+                                src={
+                                    item.image.startsWith("http")
+                                        ? item.image
+                                        : `${API_BASE_URL}${item.image}`
+                                }
+                                alt={item.name}
+                                className="package-image"
+                            />
+                        )}
+
+                        <div className="package-number">TRIP PACKAGE</div>
+                        <h3>{item.name}</h3><p className="card-description">{item.description}</p>
                         <div className="package-meta"><span><FiCalendar size={14} /> {item.duration}</span><strong>₹{item.price}</strong></div>
                         <button className="book-action" onClick={() => navigate(`/booking/${item.id}`)}>Book this package <FiArrowRight size={15} /></button>
                     </article>

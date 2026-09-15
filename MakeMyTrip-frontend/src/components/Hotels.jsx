@@ -14,8 +14,7 @@ const fallbackHotelImages = {
 function getImageUrl(image, fallback) {
   if (!image) return fallback;
 
-  return image
-    .replace("http://", "https://");
+  return image;
 }
 
 function Hotels() {

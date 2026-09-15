@@ -9,8 +9,7 @@ import { demoDestinations, withDemoRecords } from "../catalogData";
 function getImageUrl(image) {
     if (!image) return "";
 
-    return image
-        .replace("http://", "https://");
+    return image;
 }
 
 function Destinations() {

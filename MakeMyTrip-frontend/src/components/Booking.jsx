@@ -44,6 +44,19 @@ function Booking() {
             );
 
             const orderData = response.data;
+            console.log("RAZORPAY ORDER DATA:", {
+                key: orderData.key,
+                order_id: orderData.order_id,
+                amount: orderData.amount,
+                currency: orderData.currency,
+            });
+            if (!orderData.key || !orderData.key.startsWith("rzp_test_")) {
+                throw new Error("Invalid Razorpay test key received from server.");
+            }
+
+            if (!orderData.order_id) {
+                throw new Error("Razorpay order ID was not received.");
+            }
 
             const options = {
                 key: orderData.key,
@@ -99,7 +112,10 @@ function Booking() {
             razorpay.open();
 
         } catch (error) {
-            console.log("PAYMENT ORDER ERROR:", error.response?.data);
+            console.log(
+                "PAYMENT ORDER ERROR:",
+                JSON.stringify(error.response?.data, null, 2)
+            );
             alert(getErrorMessage(error, "Unable to start test payment. Please try again."));
         }
     };
